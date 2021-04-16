@@ -1,11 +1,11 @@
-import './App.css';
+import React, { memo } from 'react'
 
-function App() {
+export default memo(function App() {
   return (
-    <div className="App">
-
+    <div>
+      <h2>
+        App
+      </h2>
     </div>
-  );
-}
-
-export default App;
+  )
+})
