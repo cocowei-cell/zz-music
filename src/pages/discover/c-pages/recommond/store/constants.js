@@ -1,0 +1,1 @@
+export const MODIFY_BANNER = "recommend/MODIFY_BANNER"
