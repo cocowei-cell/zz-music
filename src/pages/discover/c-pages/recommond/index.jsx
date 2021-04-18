@@ -1,15 +1,22 @@
 import React, { memo, useEffect } from 'react'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector, shallowEqual } from 'react-redux'
 import {
   getTopBannerAction
 } from './store/actionCreators'
 
-function Recommond(props) {
-  const { getBanners, topBanners } = props
+
+function Recommond() {
+  // 使用hooks来获取dispatch
+  const dispatch = useDispatch()
+  const { topBanners } = useSelector(state => {
+    return {
+      topBanners: state.getIn(["recommend", "banner"])
+    }
+  }, shallowEqual)
 
   useEffect(() => {
-    getBanners()
-  }, [getBanners])
+    dispatch(getTopBannerAction())
+  }, [dispatch])
 
   return (
     <div>
@@ -17,7 +24,7 @@ function Recommond(props) {
         topBanners && topBanners.map((item) => {
           return (
             <div key={item.imageUrl}>
-              <img src={item.imageUrl} />
+              <img src={item.imageUrl} alt="" />
             </div>
           )
         })
@@ -26,16 +33,40 @@ function Recommond(props) {
   )
 }
 
-const mapToProps = state => {
-  return {
-    topBanners: state.recommend.banner
-  }
-}
 
-const mapToDispatch = dispatch => ({
-  getBanners() {
-    dispatch(getTopBannerAction())
-  }
-})
 
-export default connect(mapToProps, mapToDispatch)(memo(Recommond))
+// function Recommond(props) {
+//   const { getBanners, topBanners } = props
+
+//   useEffect(() => {
+//     getBanners()
+//   }, [getBanners])
+
+//   return (
+//     <div>
+//       {
+//         topBanners && topBanners.map((item) => {
+//           return (
+//             <div key={item.imageUrl}>
+//               <img src={item.imageUrl} />
+//             </div>
+//           )
+//         })
+//       }
+//     </div>
+//   )
+// }
+
+// const mapToProps = state => {
+//   return {
+//     topBanners: state.recommend.banner
+//   }
+// }
+
+// const mapToDispatch = dispatch => ({
+//   getBanners() {
+//     dispatch(getTopBannerAction())
+//   }
+// })
+
+export default memo(Recommond)
